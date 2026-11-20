@@ -1,5 +1,32 @@
 
-from pyscript import document, display
+from js import document
+from pyodide.ffi import create_proxy
+
+club_members = [
+    "Athena Aria",
+    "Matt Nicolas",
+    "Lily Cawthon",
+    "Jenny Parker",
+    "kelly bridge"
+]
+
+def add_member(event):
+    first_name = document.getElementById("fname").value.strip()
+    last_name = document.getElementById("lname").value.strip()
+    full_name = f"{first_name} {last_name}".strip()
+    club_members.append(full_name)
+    document.getElementById("result").innerText = f"Congratulations {full_name}! You are now part of the ICT club."
+    document.getElementById("members-list").innerText = ", ".join(club_members)
+    document.getElementById("member-count").innerText = f"Official Club Members: {len(club_members)} STUDENTS"
+    document.getElementById("fname").value = ""
+    document.getElementById("lname").value = ""
+def setup(event=None):
+    document.getElementById("members-list").innerText = ", ".join(club_members)
+    document.getElementById("member-count").innerText = f"Official Club Members: {len(club_members)} STUDENTS"
+    button = document.getElementById("btn-submit")
+    button.addEventListener("click", create_proxy(add_member))
+setup()
+
 Elements ={
     
     
@@ -40,3 +67,49 @@ def Search_Element(e):
     document.getElementById("number").innerText = result[1]
 
     document.getElementById("mass").innerText = result[2]
+
+
+
+club_members = [
+    "Athena Ari",
+    "Brian Bo",
+    "Carter Cu",
+]
+
+def check_membership(event):
+  
+    first_name = document.getElementById("fname").value.strip()
+    last_name = document.getElementById("lname").value.strip()
+    full_name = f"{first_name} {last_name}".strip()
+
+   
+    full_name_lower = full_name.lower()
+    members_lower = list(map(str.lower, club_members))
+
+  
+    is_member = full_name_lower in members_lower
+
+
+    messages = [
+        f"Sorry, {full_name}, your name is not on the list.",
+        f"Congratulations {full_name}! You are now part of the ICT club."
+    ]
+
+   
+    document.getElementById("result").innerText = messages[is_member]
+
+def setup():
+    button = document.getElementById("btn-submit")
+    button.addEventListener("click", create_proxy(check_membership))
+
+setup()
+
+
+
+
+
+
+
+
+
+
